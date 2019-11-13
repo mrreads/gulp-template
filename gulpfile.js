@@ -1,10 +1,39 @@
 let gulp = require('gulp'),
     sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    uncss = require('gulp-uncss'),
+    browserSync = require('browser-sync');
 
-gulp.task('scss', () => {
-    return gulp.src('./src/scss/**/*.scss')
-        .pipe(sass()) // из scss в css
-        .pipe(autoprefixer()) //autoprefixer
-        .pipe(gulp.dest('./public/css/'));
+gulp.task('html', () => {
+    return gulp.src('./src/**/*.html')
+    .pipe(browserSync.reload({ stream: true }));
 });
+
+gulp.task('css', () => {
+    return gulp.src('./src/scss/**/*.scss')
+        .pipe(sass())
+        .pipe(uncss({ html: ['./src/**/*.html'] }))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest('./public/css/'))
+        .pipe(browserSync.reload({ stream: true }));
+});
+
+gulp.task('js', () => {
+    return gulp.src('./src/**/*.js')
+    .pipe(browserSync.reload({ stream: true }));
+});
+
+gulp.task('browser-sync', () => {
+    browserSync.init({
+        server: { baseDir: "./src/" },
+        notify: false
+    });
+});
+
+gulp.task('watch', () => {
+    gulp.watch('./src/scss/**/*.scss', gulp.parallel('css'));
+    gulp.watch('./src/**/*.html', gulp.parallel('html'));
+    gulp.watch('./src/**/*.js', gulp.parallel('js'));
+});
+
+gulp.task('default', gulp.parallel('browser-sync', 'watch'));

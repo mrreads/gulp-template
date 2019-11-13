@@ -6,9 +6,15 @@
     }
 }
 
-.example {
-    display: grid;
-    transition: all .5s;
+.example 
+{
+    display: flex;
+    transition: all .2s;
     user-select: none;
     background: linear-gradient(to bottom, white, black);
+}
+
+html, body
+{
+    background-color: red;
 }
