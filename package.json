@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mrreads/gulp-template/issues"
   },
-  "homepage": "https://github.com/mrreads/gulp-template#readme"
+  "homepage": "https://github.com/mrreads/gulp-template#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
 }
