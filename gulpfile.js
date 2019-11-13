@@ -2,6 +2,8 @@ let gulp = require('gulp'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     uncss = require('gulp-uncss'),
+    csscomb = require('gulp-csscomb'),
+    babel = require('gulp-babel'),
     browserSync = require('browser-sync');
 
 gulp.task('html', () => {
@@ -14,12 +16,15 @@ gulp.task('css', () => {
         .pipe(sass())
         .pipe(uncss({ html: ['./src/**/*.html'] }))
         .pipe(autoprefixer())
+        .pipe(csscomb())
         .pipe(gulp.dest('./public/css/'))
         .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task('js', () => {
     return gulp.src('./src/**/*.js')
+    .pipe(babel({ presets: ['@babel/env'] }))
+    .pipe(gulp.dest('./public/js/'))
     .pipe(browserSync.reload({ stream: true }));
 });
 
