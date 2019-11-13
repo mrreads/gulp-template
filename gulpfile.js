@@ -1,4 +1,5 @@
 let gulp = require('gulp'),
+    clean = require('gulp-clean'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     uncss = require('gulp-uncss'),
@@ -12,7 +13,12 @@ let gulp = require('gulp'),
     imageminSvgo = require('imagemin-svgo'), // SVG
     browserSync = require('browser-sync');
 
-gulp.task('moveFiles', () => {
+gulp.task('clean', () => {
+    return gulp.src('./public/*', { read: false })
+        .pipe(clean());
+});
+
+gulp.task('move', () => {
     return gulp.src('./src/**/*.{html,php}')
         .pipe(gulp.dest('./public/')),
     gulp.src('./src/audio/*')
@@ -77,4 +83,4 @@ gulp.task('watch', () => {
 });
 
 gulp.task('start', gulp.parallel('browser-sync', 'watch'));
-gulp.task('build', gulp.parallel('moveFiles', 'css', 'js', 'img'));
+gulp.task('build', gulp.parallel('clean', 'move', 'css', 'js', 'img'));
