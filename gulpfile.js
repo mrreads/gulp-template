@@ -4,6 +4,9 @@ let gulp = require('gulp'),
     uncss = require('gulp-uncss'),
     csscomb = require('gulp-csscomb'),
     babel = require('gulp-babel'),
+    imagemin = require('gulp-imagemin'),
+    imageminPngquant = require('imagemin-pngquant'),
+    imageminMozjpeg = require('imagemin-mozjpeg'),
     browserSync = require('browser-sync');
 
 gulp.task('html', () => {
@@ -26,6 +29,15 @@ gulp.task('js', () => {
     .pipe(babel({ presets: ['@babel/env'] }))
     .pipe(gulp.dest('./public/js/'))
     .pipe(browserSync.reload({ stream: true }));
+});
+
+gulp.task('img', () => {
+    return gulp.src('./src/img/*')
+    .pipe(imagemin([
+        imageminPngquant({quality: [0.5, 0.5]}),
+        imageminMozjpeg({quality: 50})
+      ]))
+    .pipe(gulp.dest('./public/img/'));
 });
 
 gulp.task('browser-sync', () => {
