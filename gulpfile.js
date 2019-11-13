@@ -5,8 +5,11 @@ let gulp = require('gulp'),
     csscomb = require('gulp-csscomb'),
     babel = require('gulp-babel'),
     imagemin = require('gulp-imagemin'),
-    imageminPngquant = require('imagemin-pngquant'),
-    imageminMozjpeg = require('imagemin-mozjpeg'),
+    imageminPngquant = require('imagemin-pngquant'), // PNG
+    imageminMozjpeg = require('imagemin-mozjpeg'), // JPEG
+    imageminWebp = require('imagemin-webp'), // WEBP
+    imageminGifsicle = require('imagemin-gifsicle'), // GIF
+    imageminSvgo = require('imagemin-svgo'), // SVG
     browserSync = require('browser-sync');
 
 gulp.task('moveFiles', () => {
@@ -52,7 +55,10 @@ gulp.task('img', () => {
     return gulp.src('./src/img/*')
     .pipe(imagemin([
         imageminPngquant({quality: [0.5, 0.5]}),
-        imageminMozjpeg({quality: 50})
+        imageminMozjpeg({quality: 50}),
+        imageminWebp({quality: 50}),
+        imageminGifsicle({optimizationLevel: 1}),
+        imageminSvgo({ plugins: [{removeViewBox: false}] })
       ]))
     .pipe(gulp.dest('./public/img/'));
 });
