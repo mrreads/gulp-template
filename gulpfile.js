@@ -83,4 +83,4 @@ gulp.task('watch', () => {
 });
 
 gulp.task('start', gulp.parallel('browser-sync', 'watch'));
-gulp.task('build', gulp.parallel('clean', 'move', 'css', 'js', 'img'));
+gulp.task('build', gulp.series('clean', 'move', 'css', 'js', 'img'));
