@@ -9,15 +9,28 @@ let gulp = require('gulp'),
     imageminMozjpeg = require('imagemin-mozjpeg'),
     browserSync = require('browser-sync');
 
+gulp.task('moveFiles', () => {
+    return gulp.src('./src/**/*.html')
+        .pipe(gulp.dest('./public/')),
+    gulp.src('./src/audio/**')
+        .pipe(gulp.dest('./public/audio/')),
+    gulp.src('./src/css/**/*.css')
+        .pipe(autoprefixer())
+        .pipe(csscomb())
+        .pipe(gulp.dest('./public/css/')),
+    gulp.src('./src/fonts/**')
+        .pipe(gulp.dest('./public/fonts/'));
+});
+
 gulp.task('html', () => {
     return gulp.src('./src/**/*.html')
-    .pipe(browserSync.reload({ stream: true }));
+        .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task('css', () => {
     return gulp.src('./src/scss/**/*.scss')
         .pipe(sass())
-        .pipe(uncss({ html: ['./src/**/*.html'] }))
+        //.pipe(uncss({ html: ['./src/**/*.html'] }))
         .pipe(autoprefixer())
         .pipe(csscomb())
         .pipe(gulp.dest('./public/css/'))
@@ -25,7 +38,7 @@ gulp.task('css', () => {
 });
 
 gulp.task('js', () => {
-    return gulp.src('./src/**/*.js')
+    return gulp.src('./src/js/**/*.js')
     .pipe(babel({ presets: ['@babel/env'] }))
     .pipe(gulp.dest('./public/js/'))
     .pipe(browserSync.reload({ stream: true }));
@@ -53,4 +66,5 @@ gulp.task('watch', () => {
     gulp.watch('./src/**/*.js', gulp.parallel('js'));
 });
 
-gulp.task('default', gulp.parallel('browser-sync', 'watch'));
+gulp.task('start', gulp.parallel('browser-sync', 'watch'));
+gulp.task('build', gulp.parallel('moveFiles', 'css', 'js', 'img'));
