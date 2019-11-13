@@ -1,16 +1,20 @@
 let gulp = require('gulp'),
     clean = require('gulp-clean'),
+    
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     uncss = require('gulp-uncss'),
     csscomb = require('gulp-csscomb'),
+
     babel = require('gulp-babel'),
+
     imagemin = require('gulp-imagemin'),
     imageminPngquant = require('imagemin-pngquant'), // PNG
     imageminMozjpeg = require('imagemin-mozjpeg'), // JPEG
     imageminWebp = require('imagemin-webp'), // WEBP
     imageminGifsicle = require('imagemin-gifsicle'), // GIF
     imageminSvgo = require('imagemin-svgo'), // SVG
+
     browserSync = require('browser-sync');
 
 gulp.task('clean', () => {
